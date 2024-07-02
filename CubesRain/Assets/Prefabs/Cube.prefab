@@ -146,3 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2cf79ef841c1c54b96b7e3d92a17ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _materials:
+  - {fileID: 2100000, guid: 5969882e784f9534fb01d33f8fba72fc, type: 2}
+  - {fileID: 2100000, guid: e5003e6ee3b20b94986a3b89ad7bdfac, type: 2}
+  - {fileID: 2100000, guid: 9ce84cb1f64278445857488240861120, type: 2}
+  - {fileID: 2100000, guid: 230dcc76d7e050747a33b4c1f073e3fa, type: 2}
+  - {fileID: 2100000, guid: 4a605c28df0fd014db6e93ff81d23b28, type: 2}
+  - {fileID: 2100000, guid: 8180c8a2b6d84d44a8ea53c5accc13df, type: 2}
