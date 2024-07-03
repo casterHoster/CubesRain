@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(BoxCollider))]
@@ -14,6 +15,8 @@ public class Cube : MonoBehaviour
     private bool _isTouched;
     private float _minTime = 2;
     private float _maxTime = 5;
+
+    public event UnityAction<Cube> TimeIsOver;
 
     private void Awake()
     {
@@ -53,6 +56,12 @@ public class Cube : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        TimeIsOver?.Invoke(this);
+    }
+
+    public void SetDefault() 
+    { 
+        _renderer.sharedMaterial = default;
+        gameObject.SetActive(false);
     }
 }
