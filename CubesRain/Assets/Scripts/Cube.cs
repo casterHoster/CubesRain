@@ -16,15 +16,20 @@ public class Cube : MonoBehaviour
     private float _minTime = 2;
     private float _maxTime = 5;
 
+    private Vector3 _startPos;
+
     public event UnityAction<Cube> TimeIsOver;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
+        _startPos = transform.position;
     }
 
     public void SetActiveOn()
     {
+        gameObject.transform.position = _startPos;
+        SetRandomMaterial();
         gameObject.SetActive(true);
     }
 

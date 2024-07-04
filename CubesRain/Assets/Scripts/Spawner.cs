@@ -21,9 +21,14 @@ public class Spawner : MonoBehaviour
         createFunc: () => Instantiate(_cubePrefab),
         actionOnGet: (cube) => cube.SetActiveOn(),
         actionOnRelease: (cube) => cube.SetDefault(),
-        actionOnDestroy: (cube) => Destroy(cube),
+        actionOnDestroy: (cube) => DestroyCube(cube),
         collectionCheck: true,
         defaultCapacity: 100, maxSize: 100);
+    }
+
+    private void DestroyCube(Cube cube)
+    {
+        Destroy(cube.gameObject);
     }
 
     private void Start()
