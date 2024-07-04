@@ -10,27 +10,20 @@ using UnityEngine.Events;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private List<Material> _materials;
+    [SerializeField] private Material _defaultMaterial;
 
     private Renderer _renderer;
     private bool _isTouched;
     private float _minTime = 2;
     private float _maxTime = 5;
-
-    private Vector3 _startPos;
+    private Vector3 _startPosition;
 
     public event UnityAction<Cube> TimeIsOver;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
-        _startPos = transform.position;
-    }
-
-    public void SetActiveOn()
-    {
-        gameObject.transform.position = _startPos;
-        SetRandomMaterial();
-        gameObject.SetActive(true);
+        _startPosition = transform.position;
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -39,8 +32,21 @@ public class Cube : MonoBehaviour
         {
             _isTouched = true;
             SetRandomMaterial();
-            StartCoroutine(StartTimerToDestroy(SetTime()));
+            StartCoroutine(CountTime(ChooseTime()));
         }
+    }
+
+    public void SetInitial()
+    {
+        gameObject.transform.position = _startPosition;
+        gameObject.SetActive(true);
+    }
+
+    public void SetActiveOff()
+    {
+        gameObject.SetActive(false);
+        _renderer.sharedMaterial = _defaultMaterial;
+        _isTouched = false;
     }
 
     private void SetRandomMaterial()
@@ -48,25 +54,15 @@ public class Cube : MonoBehaviour
         _renderer.sharedMaterial = _materials[Random.Range(0, _materials.Count)];
     }
 
-    private float SetTime()
+    private float ChooseTime()
     {
         return Random.Range(_minTime, _maxTime + 1);
     }
 
-    private IEnumerator StartTimerToDestroy(float time)
+    private IEnumerator CountTime(float time)
     {
-        while (time > 0)
-        {
-            time -= Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(time);
 
         TimeIsOver?.Invoke(this);
-    }
-
-    public void SetDefault() 
-    { 
-        _renderer.sharedMaterial = default;
-        gameObject.SetActive(false);
     }
 }

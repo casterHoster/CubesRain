@@ -153,3 +153,4 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 230dcc76d7e050747a33b4c1f073e3fa, type: 2}
   - {fileID: 2100000, guid: 4a605c28df0fd014db6e93ff81d23b28, type: 2}
   - {fileID: 2100000, guid: 8180c8a2b6d84d44a8ea53c5accc13df, type: 2}
+  _defaultMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}

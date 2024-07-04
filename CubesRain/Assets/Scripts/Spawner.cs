@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
@@ -18,17 +17,12 @@ public class Spawner : MonoBehaviour
     private void Awake()
     {
         _cubePool = new ObjectPool<Cube>(
-        createFunc: () => Instantiate(_cubePrefab),
-        actionOnGet: (cube) => cube.SetActiveOn(),
-        actionOnRelease: (cube) => cube.SetDefault(),
-        actionOnDestroy: (cube) => DestroyCube(cube),
+        createFunc: Instantiate,
+        actionOnGet: (cube) => cube.SetInitial(),
+        actionOnRelease: (cube) => cube.SetActiveOff(),
+        actionOnDestroy: (cube) => Destroy(cube),
         collectionCheck: true,
         defaultCapacity: 100, maxSize: 100);
-    }
-
-    private void DestroyCube(Cube cube)
-    {
-        Destroy(cube.gameObject);
     }
 
     private void Start()
@@ -41,8 +35,8 @@ public class Spawner : MonoBehaviour
         while (true)
         {
             _cubePool.Get();
-            
-            yield return new WaitForSeconds (_delay);
+
+            yield return new WaitForSeconds(_delay);
         }
     }
 
@@ -51,7 +45,7 @@ public class Spawner : MonoBehaviour
         _cubePool.Release(cube);
     }
 
-    private Cube Instantiate(Cube _cubePrefab)
+    private Cube Instantiate()
     {
         Cube cube = Instantiate(_cubePrefab, new Vector3(Random.Range(_minXCoordinate, _maxXCoordinate), _yCoordinate, Random.Range(_minZCoordinate, _maxZCoordinate)), Quaternion.identity);
         cube.TimeIsOver += PutAwayPool;
