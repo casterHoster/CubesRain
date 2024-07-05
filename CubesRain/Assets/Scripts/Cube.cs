@@ -17,6 +17,7 @@ public class Cube : MonoBehaviour
     private float _minTime = 2;
     private float _maxTime = 5;
     private Vector3 _startPosition;
+    private WaitForSeconds _delay;
 
     public event UnityAction<Cube> TimeIsOver;
 
@@ -26,13 +27,18 @@ public class Cube : MonoBehaviour
         _startPosition = transform.position;
     }
 
+    private void Start()
+    {
+       _delay = ChooseTimeDelay();
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.TryGetComponent(out Platform platform) && _isTouched == false)
         {
             _isTouched = true;
             SetRandomMaterial();
-            StartCoroutine(CountTime(ChooseTime()));
+            StartCoroutine(CountTime());
         }
     }
 
@@ -54,14 +60,14 @@ public class Cube : MonoBehaviour
         _renderer.sharedMaterial = _materials[Random.Range(0, _materials.Count)];
     }
 
-    private float ChooseTime()
+    private WaitForSeconds ChooseTimeDelay()
     {
-        return Random.Range(_minTime, _maxTime + 1);
+        return new WaitForSeconds (Random.Range(_minTime, _maxTime + 1));
     }
 
-    private IEnumerator CountTime(float time)
+    private IEnumerator CountTime()
     {
-        yield return new WaitForSeconds(time);
+        yield return _delay;
 
         TimeIsOver?.Invoke(this);
     }
