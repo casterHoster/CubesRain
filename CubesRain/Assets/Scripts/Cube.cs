@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(BoxCollider))]
-
-
 public class Cube : MonoBehaviour
 {
     [SerializeField] private List<Material> _materials;
@@ -25,11 +23,7 @@ public class Cube : MonoBehaviour
     {
         _renderer = GetComponent<Renderer>();
         _startPosition = transform.position;
-    }
-
-    private void Start()
-    {
-       _delay = ChooseTimeDelay();
+        _delay = ChooseTimeDelay();
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -48,7 +42,7 @@ public class Cube : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void SetActiveOff()
+    public void Disable()
     {
         gameObject.SetActive(false);
         _renderer.sharedMaterial = _defaultMaterial;
@@ -62,7 +56,7 @@ public class Cube : MonoBehaviour
 
     private WaitForSeconds ChooseTimeDelay()
     {
-        return new WaitForSeconds (Random.Range(_minTime, _maxTime + 1));
+        return new WaitForSeconds(Random.Range(_minTime, _maxTime + 1));
     }
 
     private IEnumerator CountTime()
