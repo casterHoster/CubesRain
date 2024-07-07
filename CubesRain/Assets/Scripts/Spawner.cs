@@ -13,9 +13,11 @@ public class Spawner : MonoBehaviour
     private int _minZCoordinate = -20;
     private int _maxZCoordinate = 20;
     private int _yCoordinate = 40;
+    private WaitForSeconds _waiting;
 
     private void Awake()
     {
+        _waiting = new WaitForSeconds(_delay);
         _cubePool = new ObjectPool<Cube>(
         createFunc: Instantiate,
         actionOnGet: (cube) => cube.SetInitial(),
@@ -34,15 +36,15 @@ public class Spawner : MonoBehaviour
     {
         while (enabled)
         {
-            _cubePool.Get().TimeIsOver += PutAwayPool;
+            _cubePool.Get().IsTimeOver += PutAwayPool;
 
-            yield return new WaitForSeconds(_delay);
+            yield return _waiting;
         }
     }
 
     private void PutAwayPool(Cube cube)
     {
-        cube.TimeIsOver -= PutAwayPool;
+        cube.IsTimeOver -= PutAwayPool;
         _cubePool.Release(cube);
     }
 

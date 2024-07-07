@@ -17,7 +17,7 @@ public class Cube : MonoBehaviour
     private Vector3 _startPosition;
     private WaitForSeconds _delay;
 
-    public event UnityAction<Cube> TimeIsOver;
+    public event UnityAction<Cube> IsTimeOver;
 
     private void Awake()
     {
@@ -63,6 +63,6 @@ public class Cube : MonoBehaviour
     {
         yield return _delay;
 
-        TimeIsOver?.Invoke(this);
+        IsTimeOver?.Invoke(this);
     }
 }
