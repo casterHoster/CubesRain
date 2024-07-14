@@ -10,25 +10,19 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float _force;
 
     private Renderer _renderer;
-    private int _minTime = 2;
-    private int _maxTime = 5;
-    private int _delay;
+    private float _minTime = 2;
+    private float _maxTime = 5;
+    private float _delay;
     private Color _color;
 
-    public event UnityAction<Bomb> IsTimeOver;
+    public event UnityAction<Bomb> Implemented;
 
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
         _color = _renderer.material.color;
         _delay = ChooseTimeDelay();
-        StartCoroutine(Count());
     }
-
-    //private void Update()
-    //{
-    //    Debug.Log(_color.a);
-    //}
 
     public void Implement()
     {
@@ -42,7 +36,21 @@ public class Bomb : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        Implemented?.Invoke(this);
+    }
+
+    public void SetInitial(Vector3 position)
+    {
+        gameObject.SetActive(true);
+        transform.position = position;
+        StartCoroutine(Count());
+    }
+
+    public void Disable()
+    {
+        _color.a = 1;
+        _renderer.material.color = _color;
+        gameObject.SetActive(false);
     }
 
     private List<Rigidbody> GetExplodableObjects()
@@ -66,9 +74,9 @@ public class Bomb : MonoBehaviour
         return (transform.position - explodableObject.position).magnitude;
     }
 
-    private int ChooseTimeDelay()
+    private float ChooseTimeDelay()
     {
-        return Random.Range(_minTime, _maxTime + 1);
+        return Random.Range(_minTime, _maxTime);
     }
 
     private IEnumerator Count()
@@ -76,13 +84,13 @@ public class Bomb : MonoBehaviour
         float tick = _color.a / _delay;
         WaitForSeconds oneSecond  = new WaitForSeconds(1);
 
-        for (float i = _color.a; i > 0; i -= tick)
+        while (_color.a > 0)
         {
             _color.a -= tick;
             _renderer.material.color = _color;
-            yield return new WaitForSeconds(1);
+            yield return oneSecond;
         }
 
-        IsTimeOver?.Invoke(this);
+        Implement();
     }
 }

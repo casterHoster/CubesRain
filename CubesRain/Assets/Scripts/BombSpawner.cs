@@ -1,60 +1,33 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class BombSpawner : MonoBehaviour
+public class BombSpawner : Spawner<Bomb>
 {
-    [SerializeField] private Cube _cubePrefab;
-    [SerializeField] private float _delay;
+    [SerializeField] private CubeSpawner _cubeSpawner;
 
-    private ObjectPool<Cube> _cubePool;
-    private int _minXCoordinate = -20;
-    private int _maxXCoordinate = 20;
-    private int _minZCoordinate = -20;
-    private int _maxZCoordinate = 20;
-    private int _yCoordinate = 40;
-    private WaitForSeconds _waiting;
+    private Vector3 _position;
 
     private void Awake()
     {
-        _waiting = new WaitForSeconds(_delay);
-        _cubePool = new ObjectPool<Cube>(
-        createFunc: Instantiate,
-        actionOnGet: (cube) => cube.SetInitial(),
-        actionOnRelease: (cube) => cube.Disable(),
-        actionOnDestroy: (cube) => Destroy(cube),
+        _cubeSpawner.Removed += BombCreate;
+        _pool = new ObjectPool<Bomb>(
+        createFunc: Create,
+        actionOnGet: (bomb) => bomb.SetInitial(_position),
+        actionOnRelease: (bomb) => bomb.Disable(),
+        actionOnDestroy: (bomb) => Destroy(bomb),
         collectionCheck: true,
         defaultCapacity: 100, maxSize: 100);
     }
 
-    private void Start()
+    private void BombCreate(Vector3 cubePosition)
     {
-        StartCoroutine(CubesCreate());
+        _position = cubePosition;
+        _pool.Get().Implemented += PutAwayPool;
     }
 
-    private IEnumerator CubesCreate()
+    private void PutAwayPool(Bomb Bomb)
     {
-        while (enabled)
-        {
-            _cubePool.Get().IsTimeOver += PutAwayPool;
-
-            yield return _waiting;
-        }
-    }
-
-    private void PutAwayPool(Cube cube)
-    {
-        cube.IsTimeOver -= PutAwayPool;
-        _cubePool.Release(cube);
-    }
-
-    private Cube Instantiate()
-    {
-        Cube cube = Instantiate(
-            _cubePrefab,
-            new Vector3(Random.Range(_minXCoordinate, _maxXCoordinate),
-            _yCoordinate, Random.Range(_minZCoordinate, _maxZCoordinate)),
-            Quaternion.identity);
-        return cube;
+        Bomb.Implemented -= PutAwayPool;
+        _pool.Release(Bomb);
     }
 }

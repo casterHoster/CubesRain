@@ -1,13 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class CubeSpawner : Spawner<Cube>
 {
-    [SerializeField] private Cube _cubePrefab;
     [SerializeField] private float _delay;
 
     private WaitForSeconds _waiting;
+
+    public event UnityAction<Vector3> Removed;
 
     private void Awake()
     {
@@ -39,6 +41,7 @@ public class CubeSpawner : Spawner<Cube>
     private void PutAwayPool(Cube cube)
     {
         cube.IsTimeOver -= PutAwayPool;
+        Removed?.Invoke(cube.transform.position);
         _pool.Release(cube);
     }
 }

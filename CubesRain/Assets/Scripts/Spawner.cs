@@ -15,7 +15,7 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     protected T Create()
     {
-        T obj = Object.Instantiate(
+        T obj = Instantiate(
             _prefab,
             GetVector3(),
             Quaternion.identity);

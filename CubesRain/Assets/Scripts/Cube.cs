@@ -38,7 +38,7 @@ public class Cube : MonoBehaviour
 
     public void SetInitial()
     {
-        gameObject.transform.position = _startPosition;
+        transform.position = _startPosition;
         gameObject.SetActive(true);
     }
 
