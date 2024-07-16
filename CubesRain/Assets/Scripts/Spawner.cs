@@ -13,6 +13,15 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     private int _maxZCoordinate = 20;
     private int _yCoordinate = 40;
 
+    private void Awake()
+    {
+        _pool = new ObjectPool<T>(
+        createFunc: Create,
+        actionOnDestroy: (obj) => Destroy(obj),
+        collectionCheck: true,
+        defaultCapacity: 1000, maxSize: 1000);
+    }
+
     protected T Create()
     {
         T obj = Instantiate(

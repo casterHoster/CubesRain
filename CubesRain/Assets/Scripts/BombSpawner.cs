@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class BombSpawner : Spawner<Bomb>
 {
     [SerializeField] private CubeSpawner _cubeSpawner;
+    [SerializeField] private TextMeshProUGUI _allCount;
+    [SerializeField] private TextMeshProUGUI _onSceneCount;
 
     private Vector3 _position;
 
@@ -13,10 +16,13 @@ public class BombSpawner : Spawner<Bomb>
         _pool = new ObjectPool<Bomb>(
         createFunc: Create,
         actionOnGet: (bomb) => bomb.SetInitial(_position),
-        actionOnRelease: (bomb) => bomb.Disable(),
-        actionOnDestroy: (bomb) => Destroy(bomb),
-        collectionCheck: true,
-        defaultCapacity: 100, maxSize: 100);
+        actionOnRelease: (bomb) => bomb.Disable());
+    }
+
+    private void Update()
+    {
+        _allCount.text = "Всего бомб: " + _pool.CountAll.ToString();
+        _onSceneCount.text = "Бомб на сцене: " + _pool.CountActive;
     }
 
     private void BombCreate(Vector3 cubePosition)

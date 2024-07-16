@@ -82,13 +82,12 @@ public class Bomb : MonoBehaviour
     private IEnumerator Count()
     {
         float tick = _color.a / _delay;
-        WaitForSeconds oneSecond  = new WaitForSeconds(1);
 
         while (_color.a > 0)
         {
-            _color.a -= tick;
+            _color.a = Mathf.Lerp(_color.a, _color.a -= tick, Time.deltaTime);
             _renderer.material.color = _color;
-            yield return oneSecond;
+            yield return null;
         }
 
         Implement();

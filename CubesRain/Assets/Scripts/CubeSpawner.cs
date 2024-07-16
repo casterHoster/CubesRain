@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Pool;
@@ -6,6 +7,8 @@ using UnityEngine.Pool;
 public class CubeSpawner : Spawner<Cube>
 {
     [SerializeField] private float _delay;
+    [SerializeField] private TextMeshProUGUI _allCount;
+    [SerializeField] private TextMeshProUGUI _onSceneCount;
 
     private WaitForSeconds _waiting;
 
@@ -17,15 +20,19 @@ public class CubeSpawner : Spawner<Cube>
         _pool = new ObjectPool<Cube>(
         createFunc: Create,
         actionOnGet: (cube) => cube.SetInitial(),
-        actionOnRelease: (cube) => cube.Disable(),
-        actionOnDestroy: (cube) => Destroy(cube),
-        collectionCheck: true,
-        defaultCapacity: 100, maxSize: 100);
+        actionOnRelease: (cube) => cube.Disable()
+        );
     }
 
     private void Start()
     {
         StartCoroutine(CubesCreate());
+    }
+
+    private void Update()
+    {
+        _allCount.text = "Всего кубов: " + _pool.CountAll.ToString();
+        _onSceneCount.text = "Кубов на сцене: " + _pool.CountActive;
     }
 
     private IEnumerator CubesCreate()
