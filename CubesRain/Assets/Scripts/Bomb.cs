@@ -24,6 +24,11 @@ public class Bomb : MonoBehaviour
         _delay = ChooseTimeDelay();
     }
 
+    private void OnEnable()
+    {
+        StartCoroutine(Count());
+    }
+
     public void Implement()
     {
         foreach (Rigidbody explodableObject in GetExplodableObjects())
@@ -39,11 +44,10 @@ public class Bomb : MonoBehaviour
         Implemented?.Invoke(this);
     }
 
-    public void SetInitial(Vector3 position)
+    public void Initialize(Vector3 position)
     {
         gameObject.SetActive(true);
         transform.position = position;
-        StartCoroutine(Count());
     }
 
     public void Disable()

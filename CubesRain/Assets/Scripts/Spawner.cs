@@ -1,11 +1,13 @@
-using System.Collections;
+using System;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private T _prefab;
+    [SerializeField] protected TextMeshProUGUI _allCount;
+    [SerializeField] protected TextMeshProUGUI _onSceneCount;
 
     public ObjectPool<T> _pool;
     private int _minXCoordinate = -20;
@@ -13,6 +15,8 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     private int _minZCoordinate = -20;
     private int _maxZCoordinate = 20;
     private int _yCoordinate = 40;
+
+    public Action CountChanged;
 
     private void Awake()
     {
@@ -34,7 +38,7 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 
     private Vector3 GetVector3()
     {
-        return new Vector3(Random.Range(_minXCoordinate, _maxXCoordinate),
-            _yCoordinate, Random.Range(_minZCoordinate, _maxZCoordinate));
+        return new Vector3(UnityEngine.Random.Range(_minXCoordinate, _maxXCoordinate),
+            _yCoordinate, UnityEngine.Random.Range(_minZCoordinate, _maxZCoordinate));
     }
 }

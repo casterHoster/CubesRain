@@ -533,9 +533,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: -6948442550713875531, guid: 5437bbe1480efa04cb36d02e7a766e5a, type: 3}
-  _cubeSpawner: {fileID: 701189006}
   _allCount: {fileID: 1048035220}
   _onSceneCount: {fileID: 51179619}
+  _cubeSpawner: {fileID: 701189006}
 --- !u!4 &264095994
 Transform:
   m_ObjectHideFlags: 0
@@ -596,9 +596,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: -8169397129605999104, guid: 497ae05cf8be20a458325b92a6b62979, type: 3}
-  _delay: 0.01
   _allCount: {fileID: 1992663099}
   _onSceneCount: {fileID: 1152379613}
+  _delay: 0.01
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
