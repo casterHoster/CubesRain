@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private T _prefab;
 
-    protected ObjectPool<T> _pool;
+    public ObjectPool<T> _pool;
     private int _minXCoordinate = -20;
     private int _maxXCoordinate = 20;
     private int _minZCoordinate = -20;
@@ -16,10 +17,10 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
     private void Awake()
     {
         _pool = new ObjectPool<T>(
-        createFunc: Create,
-        actionOnDestroy: (obj) => Destroy(obj),
-        collectionCheck: true,
-        defaultCapacity: 1000, maxSize: 1000);
+            createFunc: Create,
+            actionOnDestroy: (obj) => Destroy(obj),
+            collectionCheck: true,
+            defaultCapacity: 1000, maxSize: 1000);
     }
 
     protected T Create()

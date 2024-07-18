@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 20
-  _force: 3000
+  _force: 200
 --- !u!54 &7603332075086243548
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Pool;
 
 public class BombSpawner : Spawner<Bomb>
@@ -14,9 +15,9 @@ public class BombSpawner : Spawner<Bomb>
     {
         _cubeSpawner.Removed += BombCreate;
         _pool = new ObjectPool<Bomb>(
-        createFunc: Create,
-        actionOnGet: (bomb) => bomb.SetInitial(_position),
-        actionOnRelease: (bomb) => bomb.Disable());
+            createFunc: Create,
+            actionOnGet: (bomb) => bomb.SetInitial(_position),
+            actionOnRelease: (bomb) => bomb.Disable());
     }
 
     private void Update()

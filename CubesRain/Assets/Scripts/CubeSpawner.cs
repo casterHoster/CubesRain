@@ -18,9 +18,9 @@ public class CubeSpawner : Spawner<Cube>
     {
         _waiting = new WaitForSeconds(_delay);
         _pool = new ObjectPool<Cube>(
-        createFunc: Create,
-        actionOnGet: (cube) => cube.SetInitial(),
-        actionOnRelease: (cube) => cube.Disable()
+            createFunc: Create,
+            actionOnGet: (cube) => cube.SetInitial(),
+            actionOnRelease: (cube) => cube.Disable()
         );
     }
 
@@ -29,18 +29,17 @@ public class CubeSpawner : Spawner<Cube>
         StartCoroutine(CubesCreate());
     }
 
-    private void Update()
-    {
-        _allCount.text = "Всего кубов: " + _pool.CountAll.ToString();
-        _onSceneCount.text = "Кубов на сцене: " + _pool.CountActive;
-    }
+    //private void UpdateCubesCount()
+    //{
+    //    _allCount.text = "Всего кубов: " + _pool.CountAll.ToString();
+    //    _onSceneCount.text = "Кубов на сцене: " + _pool.CountActive;
+    //}
 
     private IEnumerator CubesCreate()
     {
         while (enabled)
         {
             _pool.Get().IsTimeOver += PutAwayPool;
-
             yield return _waiting;
         }
     }
