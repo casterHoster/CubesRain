@@ -1,13 +1,10 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
+public class Spawner<T> : MonoBehaviour where T : Item
 {
     [SerializeField] private T _prefab;
-    [SerializeField] protected TextMeshProUGUI _allCount;
-    [SerializeField] protected TextMeshProUGUI _onSceneCount;
 
     public ObjectPool<T> _pool;
     private int _minXCoordinate = -20;
@@ -25,6 +22,7 @@ public class Spawner<T> : MonoBehaviour where T : MonoBehaviour
             actionOnDestroy: (obj) => Destroy(obj),
             collectionCheck: true,
             defaultCapacity: 1000, maxSize: 1000);
+            //actionOnRelease: (obj) => obj.Disable());
     }
 
     protected T Create()

@@ -1,13 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BombDisplay : Display<BombSpawner>
+public class BombDisplay : Display
 {
+    [SerializeField] private BombSpawner _spawner;
+
+    private void Awake()
+    {
+        _spawner.CountChanged += UpdateCount;
+    }
+
     protected override void UpdateCount()
     {
-        _allCount.text = "Всего бомб: " + _spawner._pool.CountAll.ToString();
-        _onSceneCount.text = "Бомб на сцене: " + _spawner._pool.CountActive;
+        AllCount.text = "Всего бомб: " + _spawner._pool.CountAll.ToString();
+        OnSceneCount.text = "Бомб на сцене: " + _spawner._pool.CountActive;
     }
 }
 

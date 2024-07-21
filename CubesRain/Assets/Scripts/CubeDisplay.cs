@@ -1,13 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeDisplay : Display<CubeSpawner>
+public class CubeDisplay : Display
 {
+    [SerializeField] private CubeSpawner _spawner;
+
+    private void Awake()
+    {
+        _spawner.CountChanged += UpdateCount;
+    }
+
     protected override void UpdateCount()
     {
-        _allCount.text = "Всего кубов: " + _spawner._pool.CountAll.ToString();
-        _onSceneCount.text = "Кубов на сцене: " + _spawner._pool.CountActive;
+        AllCount.text = "Всего кубов: " + _spawner._pool.CountAll.ToString();
+        OnSceneCount.text = "Кубов на сцене: " + _spawner._pool.CountActive;
     }
 }
 

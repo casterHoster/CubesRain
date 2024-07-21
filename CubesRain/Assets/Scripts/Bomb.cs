@@ -4,14 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
-public class Bomb : MonoBehaviour
+public class Bomb : Item
 {
     [SerializeField] private float _range;
     [SerializeField] private float _force;
 
-    private Renderer _renderer;
-    private float _minTime = 2;
-    private float _maxTime = 5;
     private float _delay;
     private Color _color;
 
@@ -19,8 +16,8 @@ public class Bomb : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
-        _color = _renderer.material.color;
+        Renderer = GetComponent<Renderer>();
+        _color = Renderer.material.color;
         _delay = ChooseTimeDelay();
     }
 
@@ -44,16 +41,16 @@ public class Bomb : MonoBehaviour
         Implemented?.Invoke(this);
     }
 
-    public void Initialize(Vector3 position)
+    public override void Initialize(Vector3 position)
     {
         gameObject.SetActive(true);
         transform.position = position;
     }
 
-    public void Disable()
+    public override void Disable()
     {
         _color.a = 1;
-        _renderer.material.color = _color;
+        Renderer.material.color = _color;
         gameObject.SetActive(false);
     }
 
@@ -80,20 +77,25 @@ public class Bomb : MonoBehaviour
 
     private float ChooseTimeDelay()
     {
-        return Random.Range(_minTime, _maxTime);
+        return Random.Range(MinTime, MaxTime);
     }
 
-    private IEnumerator Count()
+    protected override IEnumerator Count()
     {
         float tick = _color.a / _delay;
 
         while (_color.a > 0)
         {
             _color.a = Mathf.Lerp(_color.a, _color.a -= tick, Time.deltaTime);
-            _renderer.material.color = _color;
+            Renderer.material.color = _color;
             yield return null;
         }
 
         Implement();
+    }
+
+    public override void Initialize()
+    {
+        throw new System.NotImplementedException();
     }
 }

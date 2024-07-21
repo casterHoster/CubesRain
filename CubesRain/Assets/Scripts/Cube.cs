@@ -5,15 +5,12 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(BoxCollider))]
-public class Cube : MonoBehaviour
+public class Cube : Item
 {
     [SerializeField] private List<Material> _materials;
     [SerializeField] private Material _defaultMaterial;
 
-    private Renderer _renderer;
     private bool _isTouched;
-    private float _minTime = 2;
-    private float _maxTime = 5;
     private Vector3 _startPosition;
     private WaitForSeconds _delay;
 
@@ -21,7 +18,7 @@ public class Cube : MonoBehaviour
 
     private void Awake()
     {
-        _renderer = GetComponent<Renderer>();
+        Renderer = GetComponent<Renderer>();
         _startPosition = transform.position;
         _delay = ChooseTimeDelay();
     }
@@ -32,37 +29,42 @@ public class Cube : MonoBehaviour
         {
             _isTouched = true;
             SetRandomMaterial();
-            StartCoroutine(CountTime());
+            StartCoroutine(Count());
         }
     }
 
-    public void Initialize()
+    public override void Initialize()
     {
         transform.position = _startPosition;
         gameObject.SetActive(true);
     }
 
-    public void Disable()
+    public override void Disable()
     {
         gameObject.SetActive(false);
-        _renderer.sharedMaterial = _defaultMaterial;
+        Renderer.sharedMaterial = _defaultMaterial;
         _isTouched = false;
     }
 
-    private void SetRandomMaterial()
+    public override void Initialize(Vector3 vector3)
     {
-        _renderer.sharedMaterial = _materials[Random.Range(0, _materials.Count)];
+        throw new System.NotImplementedException();
     }
 
-    private WaitForSeconds ChooseTimeDelay()
-    {
-        return new WaitForSeconds(Random.Range(_minTime, _maxTime + 1));
-    }
-
-    private IEnumerator CountTime()
+    protected override IEnumerator Count()
     {
         yield return _delay;
 
         IsTimeOver?.Invoke(this);
+    }
+
+    private void SetRandomMaterial()
+    {
+        Renderer.sharedMaterial = _materials[Random.Range(0, _materials.Count)];
+    }
+
+    private WaitForSeconds ChooseTimeDelay()
+    {
+        return new WaitForSeconds(Random.Range(MinTime, MaxTime + 1));
     }
 }

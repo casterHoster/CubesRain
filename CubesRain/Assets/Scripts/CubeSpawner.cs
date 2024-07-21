@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Pool;
 
-public class CubeSpawner : Spawner<Cube>
+public class CubeSpawner : Spawner<Cube>, ISpawner<Cube>
 {
     [SerializeField] private float _delay;
 
@@ -26,27 +26,21 @@ public class CubeSpawner : Spawner<Cube>
         StartCoroutine(CubesCreate());
     }
 
-    private void UpdateCount()
-    {
-        _allCount.text = "Всего кубов: " + _pool.CountAll.ToString();
-        _onSceneCount.text = "Кубов на сцене: " + _pool.CountActive;
-    }
-
     private IEnumerator CubesCreate()
     {
         while (enabled)
         {
             _pool.Get().IsTimeOver += PutAwayPool;
-            UpdateCount();
+            CountChanged?.Invoke();
             yield return _waiting;
         }
     }
 
-    private void PutAwayPool(Cube cube)
+    public void PutAwayPool(Cube cube)
     {
         cube.IsTimeOver -= PutAwayPool;
         Removed?.Invoke(cube.transform.position);
         _pool.Release(cube);
-        UpdateCount();
+        CountChanged?.Invoke();
     }
 }

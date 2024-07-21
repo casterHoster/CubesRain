@@ -1,19 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public abstract class Display<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Display : MonoBehaviour
 {
-    [SerializeField] protected Spawner<T> _spawner;
-    [SerializeField] protected TextMeshProUGUI _allCount;
-    [SerializeField] protected TextMeshProUGUI _onSceneCount;
-
-    private void Awake()
-    {
-        _spawner.CountChanged += UpdateCount;
-    }
+    [SerializeField] protected TextMeshProUGUI AllCount;
+    [SerializeField] protected TextMeshProUGUI OnSceneCount;
 
     protected abstract void UpdateCount();
-    
 }
