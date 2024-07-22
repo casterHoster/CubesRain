@@ -376,9 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3cca12645e15349ae8ec6918316f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllCount: {fileID: 1048035220}
-  OnSceneCount: {fileID: 51179619}
-  _spawner: {fileID: 264095993}
+  OverallQuantity: {fileID: 1048035220}
+  OnSceneQuantity: {fileID: 51179619}
+  _spawner: {fileID: 264095995}
 --- !u!114 &91686910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,8 +391,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bc678f80537cdb438e0a2b062a0d240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllCount: {fileID: 1992663099}
-  OnSceneCount: {fileID: 1152379613}
+  OverallQuantity: {fileID: 1992663099}
+  OnSceneQuantity: {fileID: 1152379613}
   _spawner: {fileID: 701189006}
 --- !u!1 &237021362
 GameObject:
@@ -544,7 +544,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 264095994}
-  - component: {fileID: 264095993}
+  - component: {fileID: 264095995}
   m_Layer: 0
   m_Name: BombSpawner
   m_TagString: Untagged
@@ -552,20 +552,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &264095993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264095992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff2b96d63a318f84ca1c373853783a19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefab: {fileID: -6948442550713875531, guid: 5437bbe1480efa04cb36d02e7a766e5a, type: 3}
-  _cubeSpawner: {fileID: 701189006}
 --- !u!4 &264095994
 Transform:
   m_ObjectHideFlags: 0
@@ -581,6 +567,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &264095995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264095992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2b96d63a318f84ca1c373853783a19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: -6948442550713875531, guid: 5437bbe1480efa04cb36d02e7a766e5a, type: 3}
+  _cubeSpawner: {fileID: 701189006}
 --- !u!1 &701189003
 GameObject:
   m_ObjectHideFlags: 0

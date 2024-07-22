@@ -11,8 +11,8 @@ public class BombDisplay : Display
 
     protected override void UpdateCount()
     {
-        AllCount.text = "Всего бомб: " + _spawner._pool.CountAll.ToString();
-        OnSceneCount.text = "Бомб на сцене: " + _spawner._pool.CountActive;
+        OverallQuantity.text = "Всего бомб: " + _spawner.GetOverallQuantity();
+        OnSceneQuantity.text = "Бомб на сцене: " + _spawner.GetOnSceneQuantity();
     }
 }
 

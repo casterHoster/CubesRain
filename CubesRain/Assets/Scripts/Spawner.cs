@@ -1,12 +1,13 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Spawner<T> : MonoBehaviour where T : Item
+public abstract class Spawner<T> : MonoBehaviour where T : Item<T>
 {
     [SerializeField] private T _prefab;
 
-    public ObjectPool<T> _pool;
+    protected ObjectPool<T> Pool;
     private int _minXCoordinate = -20;
     private int _maxXCoordinate = 20;
     private int _minZCoordinate = -20;
@@ -15,26 +16,41 @@ public class Spawner<T> : MonoBehaviour where T : Item
 
     public Action CountChanged;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        _pool = new ObjectPool<T>(
+        Pool = new ObjectPool<T>(
             createFunc: Create,
-            actionOnDestroy: (obj) => Destroy(obj),
-            collectionCheck: true,
-            defaultCapacity: 1000, maxSize: 1000);
-            //actionOnRelease: (obj) => obj.Disable());
+            actionOnGet: (item) => item.Initialize(),
+            actionOnRelease: (item) => item.Disable());
+    }
+
+    public virtual void PutAwayPool(T item)
+    {
+        item.Implemented -= PutAwayPool;
+        Pool.Release(item);
+        CountChanged?.Invoke();
+    }
+
+    public int GetOverallQuantity()
+    {
+        return Pool.CountAll;
+    }
+
+    public int GetOnSceneQuantity()
+    {
+        return Pool.CountActive;
     }
 
     protected T Create()
     {
         T obj = Instantiate(
             _prefab,
-            GetVector3(),
+            GetRandomPosition(),
             Quaternion.identity);
         return obj;
     }
 
-    private Vector3 GetVector3()
+    private Vector3 GetRandomPosition()
     {
         return new Vector3(UnityEngine.Random.Range(_minXCoordinate, _maxXCoordinate),
             _yCoordinate, UnityEngine.Random.Range(_minZCoordinate, _maxZCoordinate));

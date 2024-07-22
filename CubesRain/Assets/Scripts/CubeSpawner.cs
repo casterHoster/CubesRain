@@ -11,14 +11,9 @@ public class CubeSpawner : Spawner<Cube>, ISpawner<Cube>
 
     public event UnityAction<Vector3> Removed;
 
-    private void Awake()
+    private void OnEnable()
     {
         _waiting = new WaitForSeconds(_delay);
-        _pool = new ObjectPool<Cube>(
-            createFunc: Create,
-            actionOnGet: (cube) => cube.Initialize(),
-            actionOnRelease: (cube) => cube.Disable()
-        );
     }
 
     private void Start()
@@ -30,17 +25,15 @@ public class CubeSpawner : Spawner<Cube>, ISpawner<Cube>
     {
         while (enabled)
         {
-            _pool.Get().IsTimeOver += PutAwayPool;
+            Pool.Get().Implemented += PutAwayPool;
             CountChanged?.Invoke();
             yield return _waiting;
         }
     }
 
-    public void PutAwayPool(Cube cube)
+    public override void PutAwayPool(Cube cube)
     {
-        cube.IsTimeOver -= PutAwayPool;
+        base.PutAwayPool(cube);
         Removed?.Invoke(cube.transform.position);
-        _pool.Release(cube);
-        CountChanged?.Invoke();
     }
 }

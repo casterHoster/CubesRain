@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
 [RequireComponent(typeof(BoxCollider))]
-public class Cube : Item
+public class Cube : Item<Cube>
 {
     [SerializeField] private List<Material> _materials;
     [SerializeField] private Material _defaultMaterial;
@@ -13,8 +13,6 @@ public class Cube : Item
     private bool _isTouched;
     private Vector3 _startPosition;
     private WaitForSeconds _delay;
-
-    public event UnityAction<Cube> IsTimeOver;
 
     private void Awake()
     {
@@ -46,16 +44,11 @@ public class Cube : Item
         _isTouched = false;
     }
 
-    public override void Initialize(Vector3 vector3)
-    {
-        throw new System.NotImplementedException();
-    }
-
     protected override IEnumerator Count()
     {
         yield return _delay;
 
-        IsTimeOver?.Invoke(this);
+        Implemented?.Invoke(this);
     }
 
     private void SetRandomMaterial()

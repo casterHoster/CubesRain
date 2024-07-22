@@ -11,8 +11,8 @@ public class CubeDisplay : Display
 
     protected override void UpdateCount()
     {
-        AllCount.text = "Всего кубов: " + _spawner._pool.CountAll.ToString();
-        OnSceneCount.text = "Кубов на сцене: " + _spawner._pool.CountActive;
+        OverallQuantity.text = "Всего кубов: " + _spawner.GetOverallQuantity();
+        OnSceneQuantity.text = "Кубов на сцене: " + _spawner.GetOnSceneQuantity();
     }
 }
 

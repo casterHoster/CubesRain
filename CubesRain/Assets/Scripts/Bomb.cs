@@ -1,18 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Renderer))]
-public class Bomb : Item
+public class Bomb : Item<Bomb>
 {
     [SerializeField] private float _range;
     [SerializeField] private float _force;
 
     private float _delay;
     private Color _color;
-
-    public event UnityAction<Bomb> Implemented;
 
     private void Awake()
     {
@@ -41,10 +40,9 @@ public class Bomb : Item
         Implemented?.Invoke(this);
     }
 
-    public override void Initialize(Vector3 position)
+    public override void Initialize()
     {
         gameObject.SetActive(true);
-        transform.position = position;
     }
 
     public override void Disable()
@@ -77,7 +75,7 @@ public class Bomb : Item
 
     private float ChooseTimeDelay()
     {
-        return Random.Range(MinTime, MaxTime);
+        return UnityEngine.Random.Range(MinTime, MaxTime);
     }
 
     protected override IEnumerator Count()
@@ -92,10 +90,5 @@ public class Bomb : Item
         }
 
         Implement();
-    }
-
-    public override void Initialize()
-    {
-        throw new System.NotImplementedException();
     }
 }

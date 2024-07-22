@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class Display : MonoBehaviour
 {
-    [SerializeField] protected TextMeshProUGUI AllCount;
-    [SerializeField] protected TextMeshProUGUI OnSceneCount;
+    [SerializeField] protected TextMeshProUGUI OverallQuantity;
+    [SerializeField] protected TextMeshProUGUI OnSceneQuantity;
 
     protected abstract void UpdateCount();
 }

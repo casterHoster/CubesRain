@@ -1,15 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item<T> : MonoBehaviour
 {
     protected Renderer Renderer;
     protected float MinTime = 2;
     protected float MaxTime = 5;
 
-    public abstract void Initialize();
+    public Action<T> Implemented;
 
-    public abstract void Initialize(Vector3 vector3);
+    public abstract void Initialize();
 
     public abstract void Disable();
 
